@@ -17,13 +17,6 @@ class Dashboard extends Component {
     static navigationOptions =  ({navigation}) => {
         return {
             title: 'Início',
-            headerStyle:{
-                backgroundColor: '#998f7f'
-            },
-            headerTitleStyle: {
-                alignSelf: 'center',
-                justifyContent: 'center'
-            }, 
             headerRight: () => {
                 return (
                     <TouchableOpacity onPress={navigation.getParam('onPressCreateCategory')}>

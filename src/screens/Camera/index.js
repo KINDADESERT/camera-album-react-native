@@ -162,9 +162,5 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = (dispatch) => ({
     AddPicture: (picture) => dispatch(AddPicture(picture))
 });
-  
-CameraComponent.navigationOptions = {
-    header: null
-}
 
 export default connect(mapStateToProps, mapDispatchToProps)(CameraComponent)

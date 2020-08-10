@@ -10,9 +10,27 @@ const mainNavigation = createStackNavigator({
         Dashboard: Dashboard,
         Category: Category,
         AlbumList: AlbumList,
-        Camera: Camera  
+        Camera: {
+            screen: Camera,
+            navigationOptions: {
+                title: 'Câmera',
+                headerBackTitle: 'Voltar'
+            }
+        }  
     }, {
         initialRouteName: 'Dashboard',
+        defaultNavigationOptions: {
+            headerStyle: {
+                backgroundColor: '#998f7f',
+                height: 75
+            },
+            headerTitleStyle: {
+                alignSelf: 'center',
+                justifyContent: 'center',
+                fontSize: 20
+            },
+            headerTintColor: 'white'
+        }
     },
 );
 

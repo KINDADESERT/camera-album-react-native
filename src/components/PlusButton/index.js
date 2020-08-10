@@ -6,7 +6,7 @@ export default function ButtonPlus({name = 'plus', size, text, styles, onPress})
     return (
         <TouchableOpacity onPress={onPress} style={[styles]}>
             <FontAwesome name={name} size={size}/>
-            {text && <Text>{text}</Text>}
+            {text && <Text style={{fontSize: 25}}>{text}</Text>}
         </TouchableOpacity>
     )
 }

@@ -12,7 +12,7 @@ const mainNavigation = createStackNavigator({
         AlbumList: AlbumList,
         Camera: Camera  
     }, {
-        initialRouteName: 'Dashboard'
+        initialRouteName: 'Dashboard',
     },
 );
 

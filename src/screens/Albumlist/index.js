@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, Alert, View} from 'react-native';
 import { Container } from './styles';
 import PlusButton from '../../components/PlusButton';
 import ImageSelector from '../../store/selectors/PicturesByCategory';
@@ -15,14 +15,22 @@ class AlbumList extends Component {
     }
 
     static navigationOptions =  ({navigation}) => {
-
+        const { category, PicturesLength } = navigation.state.params
         return {
-            title: navigation.state.params.category,
+            title: category,
             headerRight: () => {    
                     return (
-                        <TouchableOpacity onPress={() => navigation.navigate('Camera', {
-                            category: navigation.state.params.category
-                        })}>
+                        <TouchableOpacity onPress={() => {
+                            if(PicturesLength > 9){
+                                Alert.alert(
+                                    'Você atingiu o limite',
+                                    'Máximo 10 fotos por album.'
+                                ) 
+                             }else{
+                                 navigation.navigate('Camera', {
+                                 category: category
+                             })}   
+                         }}>
                             <FontAwesome name={"plus"} size={30} style={{marginRight: 10 }} />
                         </TouchableOpacity>
                     )
@@ -30,12 +38,36 @@ class AlbumList extends Component {
         }
     }
 
+    
+    componentDidMount() {
+        const {navigation} = this.props;
+          
+        navigation.setParams({
+              PicturesLength: this.props.pictures.length
+        })
+    }
+
     render() {
         return (
-            <Container>
-                  <FlatListForImage 
+            <Container>{
+                this.props.pictures.length === 0 ? (
+                    <View>
+                        <PlusButton 
+                            size={70}
+                            text="Adicionar foto"
+                            styles={{alignItems: 'center'}}
+                            onPress={() => {
+                                this.props.navigation.navigate('Camera', {
+                                    category: this.props.navigation.state.params.category })
+                            }}
+                        />
+                    </View>
+                ) : (
+                    <FlatListForImage 
                         items={this.props.pictures}
                     />
+                )
+            }
             </Container>
         )
     }
@@ -46,7 +78,7 @@ const mapStateToProps = (state, props) => {
     return {
       pictures: ImageSelector(state.pictures, props.navigation.state.params.category)
     };
-  };
+};
 
   
 const mapDispatchToProps = (dispatch) => ({

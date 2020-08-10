@@ -7,6 +7,7 @@ import * as Permissions from 'expo-permissions';
 import * as MediaLibrary from 'expo-media-library';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { AddPicture } from '../../store/modules/pictures/actions';
+import ImageSelector from '../../store/selectors/PicturesByCategory';
 
 function CameraComponent({ navigation , AddPicture }){
     const camRef = useRef(null)
@@ -149,9 +150,21 @@ function CameraComponent({ navigation , AddPicture }){
     )
 }
 
+
+
+const mapStateToProps = (state, props) => {
+    return {
+      pictures: ImageSelector(state.pictures, props.navigation.state.params.category)
+    };
+};
+
+
 const mapDispatchToProps = (dispatch) => ({
     AddPicture: (picture) => dispatch(AddPicture(picture))
 });
   
+CameraComponent.navigationOptions = {
+    header: null
+}
 
-export default connect(undefined, mapDispatchToProps)(CameraComponent)
+export default connect(mapStateToProps, mapDispatchToProps)(CameraComponent)

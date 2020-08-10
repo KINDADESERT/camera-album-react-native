@@ -30,14 +30,6 @@ class Category extends Component {
                 'Preencha corretamente',
                 'Nome do album precisa de no minímo 5 caracteres.'
             )
-        }
-        else if(this.props.categories.length > 4){
-            Alert.alert(
-                'Você atingiu o limite',
-                'Máximo de album por usuário é 5.'
-            )
-
-            this.props.navigation.navigate('Dashboard')
         }else{
             const album = {
                 category: this.capitalizeTxt(this.state.category),

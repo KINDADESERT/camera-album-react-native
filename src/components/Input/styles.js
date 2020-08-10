@@ -14,7 +14,7 @@ export const Input = styled.TextInput.attrs({
 })`
   flex: 1;
   color: #000000;
-  font-size: 15px;
+  font-size: 20px;
   margin-left: 10px;
   text-align: center;
 `;

@@ -1,10 +1,12 @@
 import React from 'react'
-import { View, Text, FlatList, Image, Alert } from 'react-native';
+import { View, Text, FlatList, Image, Alert, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { connect } from 'react-redux';
+import { RemovePicture } from '../../store/modules/pictures/actions';
 
-export default function FlatListForImage({items, onDelete}) {
+function FlatListForImage({items, RemovePicture}) {
 
-  const AskToDelete = ({id}) => {
+  const AskToDelete = (id) => {
     Alert.alert(
       "Apagar",
       "Deseja excluir a foto?",
@@ -15,7 +17,7 @@ export default function FlatListForImage({items, onDelete}) {
           style: "cancel"
         },
         { text: "Apagar", onPress: () => {
-            onDelete(id)
+            RemovePicture(id)
         }}
       ],
       
@@ -28,18 +30,35 @@ export default function FlatListForImage({items, onDelete}) {
             <FlatList
                 data={items}
                 keyExtractor={(item) => item.id}
+                showsVerticalScrollIndicator={false}
                 renderItem={({item}) => (
-                   <View>
-                      <TouchableOpacity onPress={AskToDelete}>
-                         <Image 
-                                style={{ height: 200, width: 200}}
-                                source={{ uri: item.uri }}
+                      <TouchableOpacity onPress={() => AskToDelete(item.id)}>
+                        <View style={styles.ViewEachImage}>
+                          <Image 
+                                  style={styles.ImageStyle}
+                                  source={{ uri: item.uri }}
                             />
-                      </TouchableOpacity>         
-                   </View>
+                        </View>
+                      </TouchableOpacity>        
                 )}
             />
         </View>
     )
 }
 
+const styles = StyleSheet.create({
+    ViewEachImage: {
+      margin: 5
+    },
+    ImageStyle: {
+      height: 200, 
+      width: 200,
+      borderRadius: 5
+    }
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  RemovePicture: (id) => dispatch(RemovePicture(id))
+});
+
+export default connect(undefined, mapDispatchToProps)(FlatListForImage)

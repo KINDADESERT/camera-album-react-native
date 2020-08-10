@@ -1,17 +1,17 @@
-import { v4 as uuid } from 'uuid';
+import GetRandomNumber from '../../../utils/GeneratingRandomNumbers';
 
 export function AddPicture({ uri, category }){
     return {
         type: 'ADD_NEW_PICTURE',
         payload: {
-            id: uuid(),
+            id: GetRandomNumber(),
             uri,
             category
         }
     }
 }
 
-export function RemovePicture({ id }){
+export function RemovePicture(id){
     return {
         type: 'REMOVE_PICTURE',
         payload: {

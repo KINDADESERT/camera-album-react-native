@@ -5,6 +5,7 @@ export const Container = styled.View`
     justify-content: center;
     align-items: center;
     padding: 0 30px;
+    background: papayawhip;
 `;
 
 export const Title = styled.Text`

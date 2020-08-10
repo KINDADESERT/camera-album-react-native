@@ -9,11 +9,12 @@ export const Container = styled.View`
     justify-content: center;
     align-items: center;
     padding: 0 30px;
+    background: papayawhip;
 `;
 
 export const Form = styled.View`
     align-self: stretch;
-    margin-top: 10px;
+    margin-bottom: 50px;
 `
 
 export const FormInput = styled(Input)`

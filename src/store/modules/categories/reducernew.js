@@ -1,7 +1,4 @@
-const INITIAL_STATE = [{
-  category: 'TESTE',
-  description: 'XXXXXXXXXX'
-}]
+const INITIAL_STATE = []
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
@@ -11,7 +8,7 @@ export default (state = INITIAL_STATE, action) => {
           ...state
         ]   
       case 'REMOVE_CATEGORY': 
-        return state.filter(({category}) => category !== action.category)
+        return state.filter(({category}) => category !== action.payload.category)
       case 'REMOVE_ALL': {
         return [] 
       }

@@ -2,7 +2,7 @@ const INITIAL_STATE = []
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
-      case 'ADD_NEW_PICTURES': 
+      case 'ADD_NEW_PICTURE': 
         return [
             action.payload,
             ...state

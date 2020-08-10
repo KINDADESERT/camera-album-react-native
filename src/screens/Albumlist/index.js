@@ -4,7 +4,7 @@ import { TouchableOpacity } from 'react-native';
 import { Container } from './styles';
 import PlusButton from '../../components/PlusButton';
 import ImageSelector from '../../store/selectors/PicturesByCategory';
-import {RemovePicture} from '../../store/modules/pictures/actions';
+import { RemovePicture } from '../../store/modules/pictures/actions';
 import FlatListForImage from '../../components/Flatlist';
 import { FontAwesome } from '@expo/vector-icons';
 
@@ -17,11 +17,12 @@ class AlbumList extends Component {
     static navigationOptions =  ({navigation}) => {
 
         return {
-            headerTitleStyle: { alignSelf: 'center', marginLeft: 50},
             title: navigation.state.params.category,
             headerRight: () => {    
                     return (
-                        <TouchableOpacity onPress={() => navigation.navigate('Camera')}>
+                        <TouchableOpacity onPress={() => navigation.navigate('Camera', {
+                            category: navigation.state.params.category
+                        })}>
                             <FontAwesome name={"plus"} size={30} style={{marginRight: 10 }} />
                         </TouchableOpacity>
                     )
@@ -29,30 +30,12 @@ class AlbumList extends Component {
         }
     }
 
-
-    onDelete(id){
-        this.props.RemovePicture(id)
-    }
-    
     render() {
         return (
             <Container>
-
-                {this.props.pictures.length === 0 ? (
-                    <PlusButton 
-                        size={50} 
-                        name="plus" 
-                        styles={{alignItems: 'center'}}
-                        text="Adicionar Imagem"
-                        onPress={() => this.props.navigation.navigate('Camera')}
-                    />
-                ) : (
-                    <FlatListForImage 
+                  <FlatListForImage 
                         items={this.props.pictures}
-                        onDelete={this.onDelete}
                     />
-                )}  
-
             </Container>
         )
     }
@@ -61,7 +44,7 @@ class AlbumList extends Component {
 
 const mapStateToProps = (state, props) => {
     return {
-      pictures: ImageSelector(state.pictures, props.category)
+      pictures: ImageSelector(state.pictures, props.navigation.state.params.category)
     };
   };
 

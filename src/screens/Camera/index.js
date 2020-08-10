@@ -8,7 +8,7 @@ import * as MediaLibrary from 'expo-media-library';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { AddPicture } from '../../store/modules/pictures/actions';
 
-function CameraComponent({ navigation }){
+function CameraComponent({ navigation , AddPicture }){
     const camRef = useRef(null)
     const [hasPermission, setHasPermission] = useState(null)
     const [hasPermissionToSave, setHasPermissionToSave] = useState(null)
@@ -23,6 +23,7 @@ function CameraComponent({ navigation }){
 
         const Permission = await Permissions.askAsync(Permissions.CAMERA_ROLL)
         setHasPermissionToSave(Permission.status === 'granted')
+
     }
 
     const takePicture = async () => {
@@ -33,13 +34,23 @@ function CameraComponent({ navigation }){
         }
     }
 
+    
+ 
     const SavePicture = async () => {   
-        const asset = await MediaLibrary.createAssetAsync(capturedPicture)
+        await MediaLibrary.createAssetAsync(capturedPicture)
         .then(() => {
-            console.log('Worked')
+            const picture = {
+                uri: capturedPicture,
+                category: navigation.state.params.category
+            }
 
-            navigation.goBack()
-        }).catch((error) => {
+            AddPicture(picture)
+
+            navigation.navigate('AlbumList', {
+                category: navigation.state.params.category
+            })
+
+        }).catch((e) => {
             console.log('Erro ao salvar')
         })
     }
@@ -82,7 +93,7 @@ function CameraComponent({ navigation }){
                           style={{
                             alignSelf: 'flex-end',
                             alignItems: 'center',
-                            marginTop: 5
+                            marginTop: 10
                           }}
 
                           onPress={() => {
@@ -93,13 +104,13 @@ function CameraComponent({ navigation }){
                             );
                           }}>
 
-                            <FontAwesome name="rotate-right" size={25} />
+                            <FontAwesome name="rotate-right" size={30} />
                             <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}> Trocar </Text>
 
                         </TouchableOpacity>
 
-                        <TouchableOpacity onPress={takePicture}>
-                                <FontAwesome name="camera" size={50} color="blue" />
+                        <TouchableOpacity onPress={takePicture} style={{ borderRadius: 50, backgroundColor: 'white', padding: 7, marginBottom: 10}}>
+                                <FontAwesome name="camera" size={50} color="black" />
                         </TouchableOpacity>
                   </View>
                 </Camera>
@@ -114,7 +125,10 @@ function CameraComponent({ navigation }){
                         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', margin: 20 }}>
 
                         <View style={{ margin: 10, flexDirection: 'row' }}>
-                            <TouchableOpacity style={{ margin: 10}} onPress={() => setOpen(false)}>
+                                <TouchableOpacity style={{ margin: 10}} 
+                                    onPress={() => setOpen(false)
+                                }>
+                                
                                 <FontAwesome name="window-close" size={30} color="#121212"/>
                             </TouchableOpacity>
                             
@@ -131,7 +145,6 @@ function CameraComponent({ navigation }){
                         </View>
                     </Modal>
                 }
-
           </SafeAreaView>
     )
 }

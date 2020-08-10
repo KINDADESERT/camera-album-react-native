@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import CameraRoll from "@react-native-community/cameraroll";
 import {Container} from './styles';
-import PlusButton from '../../components/PlusButton';
-import FlatListItem from '../../components/FlatListCategory';
 import { RemoveCategory } from '../../store/modules/categories/actions';
 import { RemovePicture } from '../../store/modules/pictures/actions';
-import { TouchableOpacity, Text, View , StyleSheet } from 'react-native';
+import { TouchableOpacity, Text, View , StyleSheet, FlatList } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
+import GetRandomNumber from '../../utils/GeneratingRandomNumbers';
+
 
 class Dashboard extends Component {
      state = {
@@ -15,16 +15,14 @@ class Dashboard extends Component {
         Images: [],
     }
 
-            
     static navigationOptions =  ({navigation}) => {
 
         return {
-            headerTitleStyle: { alignSelf: 'center'},
-            title: 'Home',
+            title: 'Início',
             headerRight: () => {
                 return (
                     <TouchableOpacity onPress={() => navigation.navigate('Category')}>
-                        <FontAwesome name={"plus"} size={30} style={{marginRight: 10}} />
+                        <FontAwesome name="plus" size={30} style={{marginRight: 10}} />
                     </TouchableOpacity>
                 )
             }
@@ -33,6 +31,7 @@ class Dashboard extends Component {
 
     onClickToRemove = (category) => {
         console.log('onClickToRemove PRESSED')
+        
         this.props.RemoveCategory(category)
     }
     
@@ -56,7 +55,6 @@ class Dashboard extends Component {
         const loadedImages = edges.map(item => item.node.image)
         
         this.setState({Images: loadedImages})
-
     }
 
     logicCondition = () => {
@@ -72,31 +70,43 @@ class Dashboard extends Component {
     }
 
     async componentDidMount(){  
-        if(this.props.categories.length !== 0 && this.props.pictures !== 0){
-           await this.getImages()
-           this.logicCondition()
-        }
-
+        console.log(this.props)
+        // if(this.props.categories.length !== 0 && this.props.pictures !== 0){
+        //    await this.getImages()
+        //    this.logicCondition()
+        // }
     }
 
-    render() {
-        const { TextNavigate, ViewCategory , TextRemove} = styles
-        const { categories } = this.props
+    renderItem = ({ item }) => {
+        return(
+            <TouchableOpacity onPress={() => this.onClickToNavigate(item.category)} >  
+                <View style={styles.ViewCategory}>              
+                       <Text style={styles.TextNavigate}>{item.category}</Text>
 
+                       <TouchableOpacity onPress={() => this.onClickToRemove(item.category)}>
+                           <FontAwesome name="times" size={30} style={{color: 'red'}} />
+                       </TouchableOpacity>
+                </View>
+            </TouchableOpacity>
+        )
+    }
+
+
+    render() {
         return (
             <Container>
-
-                  {
-                      categories.map((item)=> {
-                          return (
-                              <View key={item.category} style={ViewCategory}>
-                                 <Text onPress={() => this.onClickToNavigate(item.category)} style={TextNavigate}>{item.category}</Text>
-                                 <Text onPress={() => this.onClickToRemove(item.category)} style={TextRemove}>Apagar</Text>
-                              </View>
-                          )
-                      })
-                  }
-
+                <View style={{
+                        height: 270,
+                     }}
+                >
+                    <FlatList
+                            data={this.props.categories}
+                            keyExtractor={(item, index) => {
+                                return item.category
+                              }}
+                            renderItem={this.renderItem}
+                    />
+                </View>         
             </Container>
         )
     }
@@ -110,11 +120,14 @@ const styles =  StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         backgroundColor: '#303030',
-        padding: 7
+        padding: 7,
+        borderBottomColor: '#FFFFFF',
+        borderBottomWidth: 2
     },
     TextNavigate: {
         color: '#FFFFFF',
-        fontSize: 25
+        fontSize: 25,
+        marginLeft: 15
     },
     TextRemove:{
         color: '#FFFFFF',

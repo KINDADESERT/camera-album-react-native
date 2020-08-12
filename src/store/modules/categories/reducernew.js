@@ -1,7 +1,4 @@
-const INITIAL_STATE = [{
-  category: 'TESTE',
-  description: 'XXXXXXXXXX'
-}]
+const INITIAL_STATE = []
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {

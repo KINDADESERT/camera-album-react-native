@@ -15,12 +15,13 @@ Behind the scenes, there was also a fundamental role for react-redux for storing
 Fez-se o uso das seguintes bibliotecas: 
 The following libraries used:
 
+- react-native
+- react-navigation
 - expo
 - expo-camera
 - expo-media-library
 - expo-permissions 
 - expo-status-bar
-- react
 - react-redux 
 - styled-components
 

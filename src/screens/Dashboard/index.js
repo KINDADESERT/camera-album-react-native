@@ -28,7 +28,7 @@ class Dashboard extends Component {
     }
 
     NavigationLogicCategory = () => {
-        if(this.props.categories.length === 0){
+        if(this.props.categories.length > 4){
             Alert.alert(
                 'Você atingiu o limite',
                 'Máximo de albums por usuário é 5.'

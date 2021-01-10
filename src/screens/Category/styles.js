@@ -6,9 +6,8 @@ import Button from '../../components/Button';
 
 export const Container = styled.View`
     flex: 1;
-    justify-content: center;
     align-items: center;
-    padding: 0 30px;
+    padding: 10px 30px;
     background: papayawhip;
 `;
 

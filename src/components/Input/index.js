@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Container, Input } from './styles';
 
-function FormInput({ style, icon, ...rest }, ref) {
+function FormInput({ style, ...rest }, ref) {
   return (
     <Container style={style}>
       <Input {...rest} ref={ref} />
